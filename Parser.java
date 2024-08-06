@@ -77,15 +77,24 @@ public class Parser {
 
     // Funcion que verifica la precedencia de un operador
     private int pre(Token op) {
-        /* TODO: Su codigo aqui */
 
-        /* El codigo de esta seccion se explicara en clase */
+        /* el numero de operacion mas alto es el primero que debe operarse*/
 
         switch(op.getId()) {
         	case Token.PLUS:
         		return 1;
+            case Token.MINUS:
+                return 1;
         	case Token.MULT:
         		return 2;
+            case Token.DIV:
+                return 2;
+            case Token.MOD:
+                return 2;
+            case Token.EXP:
+                return 3;
+            case Token.UNARY:
+                return 4;
         	default:
         		return -1;
         }
@@ -93,10 +102,7 @@ public class Parser {
 
     private void popOp() {
         Token op = this.operadores.pop();
-
-        /* TODO: Su codigo aqui */
-
-        /* El codigo de esta seccion se explicara en clase */
+        /* Esta es la parte operativa. Saca con push a los operandos y los opera */
 
         if (op.equals(Token.PLUS)) {
         	double a = this.operandos.pop();
@@ -104,13 +110,35 @@ public class Parser {
         	// print para debug, quitarlo al terminar
         	System.out.println("suma " + a + " + " + b);
         	this.operandos.push(a + b);
+
+        } else if (op.equals(Token.MINUS)) {
+            double a = this.operandos.pop();
+            double b = this.operandos.pop();
+            this.operandos.push(a - b);
+
         } else if (op.equals(Token.MULT)) {
         	double a = this.operandos.pop();
         	double b = this.operandos.pop();
         	// print para debug, quitarlo al terminar
         	System.out.println("mult " + a + " * " + b);
         	this.operandos.push(a * b);
+
+        } else if (op.equals(Token.DIV)) {
+            double a = this.operandos.pop();
+            double b = this.operandos.pop();
+            this.operandos.push(a / b);
+
+        } else if (op.equals(Token.MOD)) {
+            double a = this.operandos.pop();
+            double b = this.operandos.pop();
+            this.operandos.push(a % b)
+
+        } else if (op.equals(Token.EXP)) {
+            double a = this.operandos.pop();
+            double b = this.operandos.pop();
+            this.operandos.push(Math.pow(a, b));
         }
+
     }
 
     private void pushOp(Token op) {
